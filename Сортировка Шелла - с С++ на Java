@@ -1,0 +1,36 @@
+public class ShellSortDetailed {
+    public static void shellSort(int[] arr) {
+        int n = arr.length;
+        
+        // Начинаем с большого промежутка и уменьшаем его
+        for (int gap = n / 2; gap > 0; gap /= 2) {
+            
+            // Выполняем сортировку вставками для элементов с шагом gap
+            for (int i = gap; i < n; i++) {
+                // Сохраняем текущий элемент для вставки
+                int current = arr[i];
+                int j;
+                
+                // Сдвигаем элементы, которые больше текущего, вправо
+                for (j = i; j >= gap && arr[j - gap] > current; j -= gap) {
+                    arr[j] = arr[j - gap];
+                }
+                
+                // Вставляем сохраненный элемент на правильную позицию
+                arr[j] = current;
+            }
+        }
+    }
+    
+    public static void main(String[] args) {
+        int[] numbers = {12, 34, 54, 2, 3, 1, 45, 23, 15};
+        
+        System.out.print("Исходный массив: ");
+        System.out.println(Arrays.toString(numbers));
+        
+        shellSort(numbers);
+        
+        System.out.print("Отсортированный массив: ");
+        System.out.println(Arrays.toString(numbers));
+    }
+}
