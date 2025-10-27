@@ -1,0 +1,79 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// Функция для слияния двух отсортированных массивов
+void merge(vector<int>& arr, int left, int mid, int right) {
+    vector<int> temp;
+    int i = left, j = mid + 1;
+    
+    // Сливаем элементы в временный массив
+    while (i <= mid && j <= right) {
+        if (arr[i] <= arr[j]) {
+            temp.push_back(arr[i]);
+            i++;
+        } else {
+            temp.push_back(arr[j]);
+            j++;
+        }
+    }
+    
+    // Добавляем оставшиеся элементы
+    while (i <= mid) {
+        temp.push_back(arr[i]);
+        i++;
+    }
+    
+    while (j <= right) {
+        temp.push_back(arr[j]);
+        j++;
+    }
+    
+    // Копируем обратно в исходный массив
+    for (size_t k = 0; k < temp.size(); k++) {
+        arr[left + k] = temp[k];
+    }
+}
+
+// Функция сортировки слиянием
+void merge_sort(vector<int>& arr, int left, int right) {
+    if (left < right) {
+        int mid = left + (right - left) / 2;
+        
+        // Рекурсивно сортируем левую и правую части
+        merge_sort(arr, left, mid);
+        merge_sort(arr, mid + 1, right);
+        
+        // Сливаем отсортированные части
+        merge(arr, left, mid, right);
+    }
+}
+
+// Обертка для удобства использования
+void merge_sort(vector<int>& arr) {
+    if (arr.size() > 1) {
+        merge_sort(arr, 0, arr.size() - 1);
+    }
+}
+
+// Функция для вывода массива
+void print_array(const vector<int>& arr) {
+    for (size_t i = 0; i < arr.size(); i++) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+}
+
+int main() {
+    vector<int> array = {38, 27, 43, 3, 9, 82, 10};
+    
+    cout << "Исходный массив: ";
+    print_array(array);
+    
+    merge_sort(array);
+    
+    cout << "Отсортированный массив: ";
+    print_array(array);
+    
+    return 0;
+}
